@@ -9,7 +9,6 @@ def flatten_files_list(files_list: list[str]) -> list[str]:
     :param files_list: List of files, directories, and subdirectories
     :return: Flattened list of files
     """
-
     flattened_list = []
     for item in files_list:
         if isinstance(item, list):
@@ -27,7 +26,6 @@ def validate_path_format(input_path: str) -> list[str]:
     :param input_path: Path to a file or directory
     :return: List of files to process
     """
-
     input_path = input_path.strip("'\"")
     input_path = os.path.expanduser(input_path)
 
@@ -43,6 +41,10 @@ def validate_path_format(input_path: str) -> list[str]:
 
 
 def get_args() -> argparse.Namespace:
+    """Parses the command-line arguments and flattens the path(s) given.
+
+    :return: Argparse namespace for the command-line arguments
+    """
     parser = argparse.ArgumentParser(
         prog="explicitag",
         description="MP4 rating tagger based on lyrics",
@@ -56,4 +58,5 @@ def get_args() -> argparse.Namespace:
     )
     args: argparse.Namespace = parser.parse_args()
     args.path = flatten_files_list(args.path)
+
     return args
