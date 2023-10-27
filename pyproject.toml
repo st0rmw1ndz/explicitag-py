@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "explicitag"
+version = "1.0.0"
+description = "MP4 rating tagger based on lyrics"
+authors = ["frosty <inthishouseofcards@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mutagen = "^1.47.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.10.1"
+mypy = "^1.6.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+allow_untyped_calls = true
+warn_unreachable = true
+implicit_reexport = true
+show_error_codes = true
+show_column_numbers = true
