@@ -4,9 +4,7 @@
 
 > MP4 rating tagger based on lyrics
 
-> **Note**
->
-> This is only meant for MP4 (AAC/M4A) files, as they only have the tag that this program writes to. It's meant for iTunes to read it, and nothing else.
+This marks MP4 (AAC/M4A) files as explicit or not based on their lyrics. This is only meant for iTunes to read, nothing else will be supported. For the best experience, tag your whole library with lyrics.
 
 ## Installation
 
