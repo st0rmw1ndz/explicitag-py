@@ -2,25 +2,16 @@
 
 [![Python version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://pypi.python.org/pypi/config-formatter) [![License](https://img.shields.io/github/license/delgan/config-formatter.svg)](https://codeberg.org/frosty/explicitag/src/branch/master/LICENSE)
 
-MP4 rating tagger based on lyrics
+> MP4 rating tagger based on lyrics
 
-**Note**: this is only meant for MP4 (AAC/M4A) files, as they only have the tag that this program modifies. It's meant for iTunes to read it, and mark your tracks' ratings.
+> **Note**
+>
+> This is only meant for MP4 (AAC/M4A) files, as they only have the tag that this program writes to. It's meant for iTunes to read it, and nothing else.
 
 ## Installation
 
-Clone the repository:
 ```
-~ git clone https://codeberg.org/frosty/explicitag
-```
-
-Go into the cloned directory:
-```
-~ cd explicitag
-```
-
-Install it using `pip`:
-```
-~ pip install .
+pip install git+https://codeberg.org/frosty/explicitag.git
 ```
 
 ## Usage
