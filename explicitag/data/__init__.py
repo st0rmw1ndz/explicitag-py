@@ -1,7 +1,10 @@
-import os
 from dataclasses import dataclass
 from enum import Enum
-from typing import List
+from pathlib import Path
+
+explicit_words_path = Path(__file__).resolve().parent / "explicit_words.txt"
+with explicit_words_path.open(mode="r") as f:
+    explicit_words = f.read().splitlines()
 
 
 class MP4Rating(Enum):
@@ -11,16 +14,7 @@ class MP4Rating(Enum):
 
 @dataclass
 class MP4Tags:
-    lyrics: str = "©lyr"
-    title: str = "©nam"
-    artist: str = "©ART"
-    rating: str = "rtng"
-
-
-explicit_words_path: str = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "explicit_words.txt"
-)
-
-
-with open(explicit_words_path, "r") as t:
-    explicit_words: List[str] = t.read().splitlines()
+    lyrics = "©lyr"
+    title = "©nam"
+    artist = "©ART"
+    rating = "rtng"
