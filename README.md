@@ -1,4 +1,4 @@
-# ExpliciTag
+# explicitag
 
 An MP4 rating tagger based on lyrics.
 
