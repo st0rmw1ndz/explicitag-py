@@ -49,7 +49,6 @@ def process_file(file: Path, skipped: multiprocessing.Value) -> None:
         with skipped.get_lock():
             skipped.value += 1
         return
-
     except Exception as e:
         click.echo(f"Skipped '{file.name}':\n{e}")
         with skipped.get_lock():
