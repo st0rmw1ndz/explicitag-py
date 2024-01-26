@@ -20,7 +20,7 @@ def is_explicit_lyrics(audio: MP4) -> MP4Rating:
     :return: Rating on whether it contains any explicit words.
     """
     lyrics = str(audio[MP4Tags.lyrics]).lower()
-    if any(word in lyrics for word in explicit_words):
+    if any(f" {word} " in f" {lyrics} " for word in explicit_words):
         return MP4Rating.EXPLICIT
     else:
         return MP4Rating.CLEAN
