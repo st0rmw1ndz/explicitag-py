@@ -1,4 +1,22 @@
-from explicitag import cli
+from pathlib import Path
+from typing import List
 
-if __name__ == "__main__":
-    cli.cli()
+import click
+
+from explicitag import __version__
+from explicitag.explicitag import flatten_paths, process_files
+
+
+@click.command(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.version_option(__version__)
+@click.pass_context
+@click.argument("paths", nargs=-1, type=click.Path(exists=True))
+def cli(ctx: click.Context, paths: List[Path]) -> None:
+    """An MP4 rating tagger based on lyrics.
+
+    Copyright (c) 2024 frosty.
+    """
+    if not paths:
+        click.echo(cli.get_help(ctx))
+        ctx.exit(1)
+    process_files(flatten_paths(paths))

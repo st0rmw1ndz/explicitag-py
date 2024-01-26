@@ -1,6 +1,4 @@
-import multiprocessing
-from concurrent.futures import ThreadPoolExecutor
-from functools import partial
+import threading
 from pathlib import Path
 from typing import List
 
@@ -32,50 +30,34 @@ def flatten_paths(paths_list: List[Path]) -> List[Path]:
     return file_list
 
 
-def process_file(file: Path, skipped: multiprocessing.Value) -> None:
-    """The process ran on every MP4 file.
+def process_files(files: List[Path]) -> None:
+    skipped = 0
 
-    First, it tries to read the stream as MP4 data, then checks if it has any
-    lyrics, and if it does, it checks if there are any explicit words in them.
-    Lastly, it marks the rating accordingly.
+    def process_file(file: Path) -> None:
+        nonlocal skipped
+        try:
+            audio = MP4(file)
+        except MP4StreamInfoError:
+            click.echo(f"Skipping '{file.name}': not an MP4 file.")
+            skipped += 1
+            return
+        except Exception as e:
+            click.echo(f"Skipped '{file.name}':\n{e}")
+            skipped += 1
+            return
 
-    :param file: Path to MP4 file to process.
-    :param skipped: Amount of files skipped.
-    """
-    try:
-        audio = MP4(file)
-    except MP4StreamInfoError:
-        click.echo(f"Skipping '{file.name}': not an MP4 file.")
-        with skipped.get_lock():
-            skipped.value += 1
-        return
-    except Exception as e:
-        click.echo(f"Skipped '{file.name}':\n{e}")
-        with skipped.get_lock():
-            skipped.value += 1
-        return
+        if MP4Tags.lyrics not in audio:
+            rating = MP4Rating.CLEAN
+        else:
+            rating = is_explicit_lyrics(audio)
 
-    if MP4Tags.lyrics not in audio:
-        rating = MP4Rating.CLEAN
-    else:
-        rating = is_explicit_lyrics(audio)
+        mark_rating(audio, rating)
+        click.echo(
+            f"Marked '{file.name}' as "
+            f"{'explicit' if rating is MP4Rating.EXPLICIT else 'clean'}."
+        )
 
-    mark_rating(audio, rating)
-    click.echo(
-        f"Marked '{file.name}' as "
-        f"{'explicit' if rating is MP4Rating.EXPLICIT else 'clean'}."
-    )
+    for file in files:
+        process_file(file)
 
-
-def process_files_in_parallel(files: List[Path]) -> None:
-    """Processes a list of files in parallel using multithreading.
-
-    :param files: List of files to process.
-    """
-    skipped = multiprocessing.Value("i", 0)
-
-    with ThreadPoolExecutor() as executor:
-        process_file_partial = partial(process_file, skipped=skipped)
-        executor.map(process_file_partial, files)
-
-    click.echo(f"\nComplete. {skipped.value} files skipped.")
+    click.echo(f"{len(files)} files processed. {skipped} files skipped.")
