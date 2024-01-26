@@ -1,3 +1,4 @@
+import asyncio
 from pathlib import Path
 from typing import List
 
@@ -19,4 +20,4 @@ def cli(ctx: click.Context, paths: List[Path]) -> None:
     if not paths:
         click.echo(cli.get_help(ctx))
         ctx.exit(1)
-    process_files(flatten_paths(paths))
+    asyncio.run(process_files(flatten_paths(paths)))
