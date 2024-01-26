@@ -2,7 +2,7 @@
 
 An MP4 rating tagger based on lyrics.
 
-ExpliciTag marks MP4 (AAC/M4A) files as explicit or not based on their lyrics. This is only meant for iTunes to read, nothing else will be supported. For the best experience, tag your whole library with lyrics.
+explicitag marks MP4 (AAC/M4A) files as explicit or not based on their lyrics. This is only meant for iTunes to read, nothing else will be supported. For the best experience, tag your whole library with lyrics.
 
 ## Usage
 
